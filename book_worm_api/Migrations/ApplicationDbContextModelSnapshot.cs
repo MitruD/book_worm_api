@@ -223,6 +223,141 @@ namespace book_worm_api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("book_worm_api.Models.MenuItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("SpecialTag")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MenuItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category = "Appetizer",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Appetizer1.jpg",
+                            Name = "Spring Roll",
+                            Price = 7.9900000000000002,
+                            SpecialTag = ""
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category = "Appetizer",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Appetizer2.jpg",
+                            Name = "Idli",
+                            Price = 8.9900000000000002,
+                            SpecialTag = ""
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Category = "Appetizer",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Appetizer3.jpg",
+                            Name = "Panu Puri",
+                            Price = 8.9900000000000002,
+                            SpecialTag = "Best Seller"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Category = "Entrée",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Entrée1.jpg",
+                            Name = "Hakka Noodles",
+                            Price = 10.99,
+                            SpecialTag = ""
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category = "Entrée",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Entrée2.jpg",
+                            Name = "Malai Kofta",
+                            Price = 12.99,
+                            SpecialTag = "Top Rated"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Category = "Entrée",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Entrée3.jpg",
+                            Name = "Paneer Pizza",
+                            Price = 11.99,
+                            SpecialTag = ""
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Category = "Entrée",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Entrée4.jpg",
+                            Name = "Paneer Tikka",
+                            Price = 13.99,
+                            SpecialTag = "Chef's Special"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Category = "Dessert",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Dessert1.jpg",
+                            Name = "Carrot Love",
+                            Price = 4.9900000000000002,
+                            SpecialTag = ""
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Category = "Dessert",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Dessert2.jpg",
+                            Name = "Rasmalai",
+                            Price = 4.9900000000000002,
+                            SpecialTag = "Chef's Special"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Category = "Dessert",
+                            Description = "Fusc tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Image = "~/images/Dessert3.jpg",
+                            Name = "Sweet Rolls",
+                            Price = 3.9900000000000002,
+                            SpecialTag = "Top Rated"
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
