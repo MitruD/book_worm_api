@@ -6,6 +6,7 @@ namespace book_worm_api.Data
 {
     public class ApplicationDbContext:IdentityDbContext<ApplicationUser>
     {
+        //options return value is specified in Services Program.cs
         public ApplicationDbContext(DbContextOptions options) : base(options) { 
         }
         //The table in database doesn't change its name to ApplicationUser because EF knows that it extends the IdentityDbContext
