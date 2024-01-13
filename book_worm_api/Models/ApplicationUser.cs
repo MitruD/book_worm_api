@@ -4,7 +4,7 @@ namespace book_worm_api.Models
 {
     public class ApplicationUser:IdentityUser
     {
-        //Stands for the name of the user. User name in database means Email.
+        //Stands for the actual name of the user. UserName in database means Email.
         public string Name { get; set; }
     }
 }
