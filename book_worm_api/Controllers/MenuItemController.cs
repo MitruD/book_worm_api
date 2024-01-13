@@ -1,8 +1,10 @@
 ﻿using book_worm_api.Data;
 using book_worm_api.Models;
 using book_worm_api.Models.Dto;
+using book_worm_api.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Net;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
@@ -76,7 +78,7 @@ namespace book_worm_api.Controllers
                         Category = menuItemCreateDTO.Category,
                         SpecialTag = menuItemCreateDTO.SpecialTag,
                         Description = menuItemCreateDTO.Description,
-                        //Image = await _blobService(fileName)
+                        //TODO:Image = await _blobService(fileName)
                     };
                     //Save item to DB
                     _db.MenuItems.Add(menuItemToCreate);
@@ -85,6 +87,61 @@ namespace book_worm_api.Controllers
                     _response.Result = menuItemToCreate;
                     _response.StatusCode = HttpStatusCode.Created;
                     return CreatedAtRoute("GetMenuItem", new { id = menuItemToCreate.Id }, _response);//??
+
+                }
+                else
+                {
+                    _response.IsSuccess = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<ApiResponse>> UpdateMenuItem(int id, [FromForm] MenuItemUpdateDTO menuItemUpdateDTO)
+        {
+            try
+            {
+                //IsValid is true if all coditions mentioned in Model tags ([Required],[Range..], etc) are followed.
+                if (ModelState.IsValid)
+                {
+                    if (menuItemUpdateDTO == null || id != menuItemUpdateDTO.Id)
+                    {
+                        return BadRequest();
+                    }
+                    //MenuItem menuItemFromDb = await _db.MenuItems.FirstOrDefaultAsync(x=>x.Id==id);
+                    MenuItem menuItemFromDb = await _db.MenuItems.FindAsync(id);
+
+                    if (menuItemFromDb == null)
+                    {
+                        return BadRequest();
+                    }
+
+                    menuItemFromDb.Name = menuItemUpdateDTO.Name;
+                    menuItemFromDb.Price = menuItemUpdateDTO.Price;
+                    menuItemFromDb.Category = menuItemUpdateDTO.Category;
+                    menuItemFromDb.SpecialTag = menuItemUpdateDTO.SpecialTag;
+                    menuItemFromDb.Description = menuItemUpdateDTO.Description;
+
+                    //TODO: Adjust for local storage.
+
+                    //if(menuItemUpdateDTO.File != null && menuItemUpdateDTO.File.Length>0)
+                    //{
+                    //string fileName = $"{Guid.NewGuid()}{Path.GetExtension(menuItemCreateDTO.File.FileName)}";
+                    //    await _blobSrevice.DeleteBlob(menuItemFromDb.Image.Split('/').Last(),SD.SD_Storage_Container);
+                    //TODO:Image = await _blobService(fileName) 188 7:27
+                    //}
+
+                    _db.MenuItems.Update(menuItemFromDb);
+                    _db.SaveChanges();
+
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    return Ok(_response);//??
 
                 }
                 else

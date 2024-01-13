@@ -11,7 +11,7 @@ namespace book_worm_api.Models.Dto
         public string Category { get; set; }
         [Range(1, int.MaxValue)]
         public double Price { get; set; }
-        //??? IFormFile
+        //TODO: IFormFile??
         public IFormFile File { get; set; }
     }
 }
