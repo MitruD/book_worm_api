@@ -23,11 +23,6 @@ namespace book_worm_api.Controllers
             _response = new ApiResponse();
         }
 
-        //The async keyword allows you to use the await keyword inside the method, typically for operations that might take some time to complete, such as I/O operations or network requests. In this case, it seems that the method is not making use of asynchronous operations, as it doesn't contain any await statements.
-
-        //It's worth noting that if you're not performing any asynchronous operations inside the method, you could consider removing the async keyword and changing the return type to IActionResult directly(no Task<>)
-
-
         [HttpGet]
         public async Task<IActionResult> GetMenuItems()
         {
@@ -36,8 +31,6 @@ namespace book_worm_api.Controllers
             return Ok(_response);
         }
 
-        //Swagger makes difference between APIs by looking at tags and not at the function name and it's argument.
-        //If we have two instances of [HttpGet] tags, swagger will throw an error. The argument should be put in tag for it to make the diffence.
         [HttpGet("{id:int}", Name = "GetMenuItem")]
         public async Task<IActionResult> GetMenuItem(int id)
         {
