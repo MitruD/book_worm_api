@@ -5,7 +5,11 @@ using book_worm_api.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Claims;
+using System.Text;
 
 namespace book_worm_api.Controllers
 {
@@ -46,11 +50,33 @@ namespace book_worm_api.Controllers
             }
 
             //we have to generate JWT Token
+            var roles = await _userManager.GetRolesAsync(userFromDb);
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            //conver secretKey to byte array
+            byte[] key = Encoding.ASCII.GetBytes(secretKey);
+            //DEFINE PROPERTIES FOR TOKEN
+            SecurityTokenDescriptor tokenDescriptor = new()
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("fullName", userFromDb.Name),
+                    new Claim("id", userFromDb.Id.ToString()),
+                    new Claim(ClaimTypes.Email, userFromDb.UserName.ToString()),
+                    new Claim(ClaimTypes.Role, roles.FirstOrDefault()),
+                }),
+                //How long token is valid for
+                Expires = DateTime.UtcNow.AddDays(7),
+                //we need to use the key to validate or add a signature to our token.
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature),
+            };
+
+            //Here the actual token generation
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 
             LoginResponseDTO loginResponse = new()
             {
                 Email = userFromDb.Email,
-                Token = "REPLACE WITH ACTUAL TOKEN ONCE WE GENERATE"
+                Token = tokenHandler.WriteToken(token),
             };
 
             if (loginResponse.Email == null  || string.IsNullOrEmpty(loginResponse.Token))
@@ -65,7 +91,7 @@ namespace book_worm_api.Controllers
             _response.Result = loginResponse;
             return Ok(_response);
         }
-
+        
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO model)
