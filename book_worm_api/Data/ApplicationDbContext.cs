@@ -13,6 +13,9 @@ namespace book_worm_api.Data
         //EF will not create a new table because it knows that it inherits the IdentityDbContext
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //standart setup
