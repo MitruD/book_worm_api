@@ -9,8 +9,6 @@ namespace book_worm_api.Data
         //options return value is specified in Services Program.cs
         public ApplicationDbContext(DbContextOptions options) : base(options) { 
         }
-        //The table in database doesn't change its name to ApplicationUser because EF knows that it extends the IdentityDbContext
-        //EF will not create a new table because it knows that it inherits the IdentityDbContext
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
